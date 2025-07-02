@@ -8,6 +8,7 @@ export interface CityWeather extends WeatherData {
 
 interface WeatherState {
   cities: CityWeather[];
+  addCityLoading: boolean;
   errorModalOpen: boolean;
 }
 
@@ -15,6 +16,7 @@ const saved = localStorage.getItem('weatherData');
 
 const initialState: WeatherState = {
   cities: saved ? JSON.parse(saved) : [],
+  addCityLoading: false,
   errorModalOpen: false,
 };
 
@@ -24,12 +26,27 @@ export const addCity = createAsyncThunk<
   string,
   {state: {weather: WeatherState}}>(
     'weather/addCity',
-        async (city: string, { rejectWithValue }) => {
-        try {
-            return await fetchCurrentWeather(city);
-        } catch (err) {
+        async (city, { rejectWithValue }) => {
+          const start = Date.now();
+
+          try {
+              const data = await fetchCurrentWeather(city);
+              const elapsed = Date.now() - start;
+
+              if (elapsed < 400) {
+                await new Promise((res) => setTimeout(res, 400 - elapsed));
+              }
+
+              return data
+          } catch {
+            const elapsed = Date.now() - start;
+
+            if (elapsed < 600) {
+              await new Promise((res) => setTimeout(res, 400 - elapsed));
+            }
+
             return rejectWithValue('City not found');
-        }
+          }
     },
     {condition: (city, { getState }) => {
       const { cities } = getState().weather;
@@ -69,6 +86,7 @@ const weatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addCity.pending, (state, action) => {
+        state.addCityLoading = true;
         state.cities.unshift({
           city: action.meta.arg,
           temp: 0,
@@ -79,7 +97,11 @@ const weatherSlice = createSlice({
         });
       })
       .addCase(addCity.fulfilled, (state, action) => {
-        const index = state.cities.findIndex(c => c.city === action.payload.city);
+        state.addCityLoading = false;
+
+        const index = state.cities.findIndex(
+          c => c.city.toLowerCase() === action.payload.city.toLowerCase()
+        );
         if (index !== -1) {
           state.cities[index] = { ...action.payload, loading: false, error: null };
         }
@@ -87,6 +109,7 @@ const weatherSlice = createSlice({
       })
 
       .addCase(addCity.rejected, (state, action) => {
+        state.addCityLoading = false;
         state.cities = state.cities.filter(c => c.city !== action.meta.arg);
         state.errorModalOpen = true;
       })

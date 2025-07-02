@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Modal, Typography } from '@mui/material';
+import { TextField, Button, Box, Modal, Typography, CircularProgress } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { addCity, closeCityNotFoundModal } from '../features/weather/weatherSlice';
 
@@ -7,11 +7,15 @@ const Main: React.FC = () => {
   const [city, setCity] = useState('');
   const dispatch = useAppDispatch();
   const cityNotFoundModalOpen = useAppSelector((state) => state.weather.errorModalOpen);
+  const loading = useAppSelector((state) => state.weather.addCityLoading);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (city.trim().length < 2) return;
-    const resultAction = await dispatch(addCity(city.trim()));
+
+    const cityName = city.trim();
+
+    const resultAction = await dispatch(addCity(cityName));
 
     if (addCity.rejected.match(resultAction)) {
     } else {
@@ -31,8 +35,8 @@ const Main: React.FC = () => {
           fullWidth
           sx={{ '& .MuiInputBase-input': { p: '12px' } }}
         />
-        <Button variant="contained" type="submit">
-          Add
+        <Button variant="contained" type="submit" disabled={loading} sx={{ minWidth: 80, position: 'relative' }}>
+        {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Add'}
         </Button>
       </Box>
 

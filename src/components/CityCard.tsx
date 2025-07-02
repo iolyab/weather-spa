@@ -29,18 +29,18 @@ const CityCard: React.FC<Props> = ({ city }) => {
 
   return (
     <Card
-  sx={{
-    height: '120px',
-    p: 1,
-    borderRadius: '4px',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    backdropFilter: 'blur(6px)',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-    transition: '0.3s',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.75)',
-    },
-  }}
+      sx={{
+        height: '120px',
+        p: 1,
+        borderRadius: '4px',
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        backdropFilter: 'blur(6px)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        transition: '0.3s',
+        '&:hover': {
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+        },
+      }}
 >
   <CardContent
     sx={{
