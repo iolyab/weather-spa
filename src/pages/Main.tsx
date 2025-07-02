@@ -17,7 +17,7 @@ const Main: React.FC = () => {
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 1, mb: 2 }}>
       <TextField
-        label="City"
+        label="Find the city..."
         variant="outlined"
         size="small"
         value={city}
