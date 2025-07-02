@@ -15,14 +15,7 @@ const saved = localStorage.getItem('weatherData');
 const defaultCities = ['London', 'New York', 'Kyiv'];
 
 const initialState: WeatherState = {
-  cities: saved ? JSON.parse(saved) : defaultCities.map((city) => ({
-    city,
-    temp: 20,
-    icon: '01d',
-    description: 'Clear',
-    loading: false,
-    error: null,
-  }))
+  cities: saved ? JSON.parse(saved) : [],
 };
 
 export const addCity = createAsyncThunk(

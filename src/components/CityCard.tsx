@@ -4,6 +4,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CityWeather, deleteCity, refreshCity } from '../features/weather/weatherSlice';
 import { useAppDispatch } from '../hooks';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   city: CityWeather;
@@ -11,6 +12,12 @@ interface Props {
 
 const CityCard: React.FC<Props> = ({ city }) => {
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/city/${city.city}`);
+  };
 
   const handleRefresh = () => {
     dispatch(refreshCity(city.city));
@@ -21,8 +28,8 @@ const CityCard: React.FC<Props> = ({ city }) => {
   };
 
   return (
-    <Card sx={{ mb: 2 }}>
-      <CardContent>
+    <Card sx={{ mb: 2 }} >
+      <CardContent sx={{cursor: 'pointer'}} onClick={handleCardClick}>
         <Typography variant="h6">{city.city}</Typography>
         {city.loading ? (
           <CircularProgress size={24} />
