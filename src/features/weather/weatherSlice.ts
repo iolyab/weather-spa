@@ -33,8 +33,8 @@ export const addCity = createAsyncThunk<
               const data = await fetchCurrentWeather(city);
               const elapsed = Date.now() - start;
 
-              if (elapsed < 400) {
-                await new Promise((res) => setTimeout(res, 400 - elapsed));
+              if (elapsed < 600) {
+                await new Promise((res) => setTimeout(res, 600 - elapsed));
               }
 
               return data
@@ -42,7 +42,7 @@ export const addCity = createAsyncThunk<
             const elapsed = Date.now() - start;
 
             if (elapsed < 600) {
-              await new Promise((res) => setTimeout(res, 400 - elapsed));
+              await new Promise((res) => setTimeout(res, 600 - elapsed));
             }
 
             return rejectWithValue('City not found');

@@ -31,7 +31,8 @@ const CityCard: React.FC<Props> = ({ city }) => {
     <Card
       sx={{
         height: '120px',
-        p: 1,
+        px: 2,
+        py: 1,
         borderRadius: '4px',
         backgroundColor: 'rgba(255, 255, 255, 0.6)',
         backdropFilter: 'blur(6px)',
