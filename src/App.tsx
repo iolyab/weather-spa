@@ -1,12 +1,18 @@
 import React from 'react';
-import './App.css';
+import Main from './components/Main';
+import CityList from './components/CityList';
+import { Container, Typography } from '@mui/material';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Weather App
+      </Typography>
+      <Main />
+      <CityList />
+    </Container>
   );
-}
+};
 
 export default App;
