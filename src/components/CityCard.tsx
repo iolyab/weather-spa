@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Card, CardContent, Typography, IconButton, CardActions, CircularProgress, Box } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,20 +12,19 @@ interface Props {
 
 const CityCard: React.FC<Props> = ({ city }) => {
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
+  const handleCardClick = useCallback(() => {
     navigate(`/city/${city.city}`);
-  };
+  }, [navigate, city.city]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     dispatch(refreshCity(city.city));
-  };
+  }, [dispatch, city.city]);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     dispatch(deleteCity(city.city));
-  };
+  }, [dispatch, city.city]);
 
   return (
     <Card
@@ -55,7 +54,6 @@ const CityCard: React.FC<Props> = ({ city }) => {
     }}
     onClick={handleCardClick}
   >
-    {/* LEFT SIDE: City info + actions */}
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
       <Box>
         <Typography variant="h6">{city.city}</Typography>
@@ -66,16 +64,15 @@ const CityCard: React.FC<Props> = ({ city }) => {
         )}
       </Box>
       <CardActions sx={{ p: 0 }}>
-        <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleRefresh(); }}>
+        <IconButton aria-label="Refresh weather" size="small" onClick={(e) => { e.stopPropagation(); handleRefresh(); }}>
           <RefreshIcon fontSize="small" />
         </IconButton>
-        <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleDelete(); }}>
+        <IconButton aria-label="Delete card" size="small" onClick={(e) => { e.stopPropagation(); handleDelete(); }}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </CardActions>
     </Box>
 
-    {/* RIGHT SIDE: Temperature + icon */}
     {!city.loading && !city.error ? (
       <Box sx={{ textAlign: 'right' }}>
         <Typography variant="h4">{Math.round(city.temp)}°C</Typography>

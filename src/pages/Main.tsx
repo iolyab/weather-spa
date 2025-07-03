@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { TextField, Button, Box, Modal, Typography, CircularProgress } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { addCity, closeCityNotFoundModal } from '../features/weather/weatherSlice';
+import { selectAddCityLoading, selectErrorModalOpen } from '../features/weather/selectors';
+
 
 const Main: React.FC = () => {
   const [city, setCity] = useState('');
   const dispatch = useAppDispatch();
-  const cityNotFoundModalOpen = useAppSelector((state) => state.weather.errorModalOpen);
-  const loading = useAppSelector((state) => state.weather.addCityLoading);
+  const cityNotFoundModalOpen = useAppSelector(selectErrorModalOpen);
+  const loading = useAppSelector(selectAddCityLoading);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (city.trim().length < 2) return;
 
     const cityName = city.trim();
+    if(cityName.length < 2) return;
 
     const resultAction = await dispatch(addCity(cityName));
 
-    if (addCity.rejected.match(resultAction)) {
+    if (!addCity.rejected.match(resultAction)) {
+      setCity('');
     } else {
       setCity('');
     }
   };
 
+  const handleCloseModal = useCallback(() => {
+    dispatch(closeCityNotFoundModal());
+  }, [dispatch]);
+
   return (
   <>
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 1, mb: 2 }}>
         <TextField
+          aria-label="City input"
           label="Find the city..."
           variant="outlined"
           size="small"
@@ -42,7 +50,7 @@ const Main: React.FC = () => {
 
       <Modal
         open={cityNotFoundModalOpen}
-        onClose={() => dispatch(closeCityNotFoundModal())}
+        onClose={handleCloseModal}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
@@ -65,7 +73,7 @@ const Main: React.FC = () => {
           <Typography id="modal-description" sx={{ mt: 2 }}>
             The city you entered could not be found. Please try again.
           </Typography>
-          <Button onClick={() => dispatch(closeCityNotFoundModal())} sx={{ mt: 2 }}>
+          <Button onClick={handleCloseModal} sx={{ mt: 2 }}>
             Close
           </Button>
         </Box>
