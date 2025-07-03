@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   LineChart,
@@ -15,13 +15,16 @@ import {
   Card,
   CardContent,
   Stack,
+  Button,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import classes from './cityDetails.module.scss';
 import { API_KEY } from '../../api/weatherAPI';
 import { getAqiDescription } from '../../utils';
 
 const CityDetails: React.FC = () => {
   const { name } = useParams();
+  const navigate = useNavigate();
   const [hourlyData, setHourlyData] = useState<
     { time: string; temp: number }[]
   >([]);
@@ -91,8 +94,30 @@ const CityDetails: React.FC = () => {
     fetchAll();
   }, [name]);
 
+  const handleBackClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className={classes.container}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleBackClick();
+        }}
+      >
+        <Button
+          type="submit"
+          startIcon={<ArrowBackIcon />}
+          onClick={handleBackClick}
+          variant="outlined"
+          sx={{
+            padding: '4px',
+            minWidth: '45px',
+          }}
+        ></Button>
+      </form>
+
       <Typography variant="h5" align="center" gutterBottom>
         Weather Details: {name}
       </Typography>
