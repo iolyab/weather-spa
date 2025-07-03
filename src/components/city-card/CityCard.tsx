@@ -15,8 +15,9 @@ import {
   deleteCity,
   refreshCity,
 } from '../../features/weather/weatherSlice';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
+import { selectAddCityLoading } from '../../features/selectors';
 
 interface Props {
   city: CityWeather;
@@ -25,6 +26,7 @@ interface Props {
 const CityCard: React.FC<Props> = ({ city }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isAddingCity = useAppSelector(selectAddCityLoading);
 
   const handleCardClick = useCallback(() => {
     navigate(`/city/${city.city}`);
@@ -37,6 +39,8 @@ const CityCard: React.FC<Props> = ({ city }) => {
   const handleDelete = useCallback(() => {
     dispatch(deleteCity(city.city));
   }, [dispatch, city.city]);
+
+  const buttonsDisabled = isAddingCity || city.loading;
 
   return (
     <Card
@@ -94,6 +98,7 @@ const CityCard: React.FC<Props> = ({ city }) => {
             <IconButton
               aria-label="Refresh weather"
               size="small"
+              disabled={buttonsDisabled}
               onClick={(e) => {
                 e.stopPropagation();
                 handleRefresh();
@@ -104,6 +109,7 @@ const CityCard: React.FC<Props> = ({ city }) => {
             <IconButton
               aria-label="Delete card"
               size="small"
+              disabled={buttonsDisabled}
               onClick={(e) => {
                 e.stopPropagation();
                 handleDelete();

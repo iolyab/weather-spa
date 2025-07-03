@@ -17,8 +17,8 @@ import {
   Stack,
 } from '@mui/material';
 import classes from './cityDetails.module.scss';
-
-const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+import { API_KEY } from '../../api/weatherAPI';
+import { getAqiDescription } from '../../utils';
 
 const CityDetails: React.FC = () => {
   const { name } = useParams();
@@ -90,23 +90,6 @@ const CityDetails: React.FC = () => {
 
     fetchAll();
   }, [name]);
-
-  const getAqiDescription = (aqi: number) => {
-    switch (aqi) {
-      case 1:
-        return 'Good';
-      case 2:
-        return 'Fair';
-      case 3:
-        return 'Moderate';
-      case 4:
-        return 'Poor';
-      case 5:
-        return 'Very Poor';
-      default:
-        return 'Unknown';
-    }
-  };
 
   return (
     <div className={classes.container}>

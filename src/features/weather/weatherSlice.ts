@@ -15,9 +15,33 @@ interface WeatherState {
 const saved = localStorage.getItem('weatherData');
 
 const initialState: WeatherState = {
-  cities: saved ? JSON.parse(saved) : [],
+  cities: (() => {
+    try {
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to parse saved cities:', error);
+      return [];
+    }
+  })(),
   addCityLoading: false,
   errorModalOpen: false,
+};
+
+const delay = async <T>(
+  asyncFn: () => Promise<T>,
+  minDelay: number = 600
+): Promise<T> => {
+  const start = Date.now();
+
+  try {
+    return await asyncFn();
+  } finally {
+    const elapsed = Date.now() - start;
+
+    if (elapsed < minDelay) {
+      await new Promise((res) => setTimeout(res, minDelay - elapsed));
+    }
+  }
 };
 
 export const addCity = createAsyncThunk<
@@ -27,34 +51,16 @@ export const addCity = createAsyncThunk<
 >(
   'weather/addCity',
   async (city, { rejectWithValue }) => {
-    const start = Date.now();
-
     try {
-      const data = await fetchCurrentWeather(city);
-      const elapsed = Date.now() - start;
-
-      if (elapsed < 600) {
-        await new Promise((res) => setTimeout(res, 600 - elapsed));
-      }
-
-      return data;
+      return await delay(() => fetchCurrentWeather(city));
     } catch {
-      const elapsed = Date.now() - start;
-
-      if (elapsed < 600) {
-        await new Promise((res) => setTimeout(res, 600 - elapsed));
-      }
-
       return rejectWithValue('City not found');
     }
   },
   {
     condition: (city, { getState }) => {
       const { cities } = getState().weather;
-      const alreadyExists = cities.some(
-        (c) => c.city.toLowerCase() === city.toLowerCase()
-      );
-      return !alreadyExists;
+      return !cities.some((c) => c.city.toLowerCase() === city.toLowerCase());
     },
   }
 );

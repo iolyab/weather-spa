@@ -16,6 +16,7 @@ import {
   selectAddCityLoading,
   selectErrorModalOpen,
 } from '../../features/selectors';
+import classes from './main.module.scss';
 
 const Main: React.FC = () => {
   const [city, setCity] = useState('');
@@ -44,11 +45,7 @@ const Main: React.FC = () => {
 
   return (
     <>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{ display: 'flex', gap: 1, mb: 2 }}
-      >
+      <form onSubmit={handleSubmit} className={classes.formContainer}>
         <TextField
           aria-label="City input"
           label="Find the city..."
@@ -71,7 +68,7 @@ const Main: React.FC = () => {
             'Add'
           )}
         </Button>
-      </Box>
+      </form>
 
       <Modal
         open={cityNotFoundModalOpen}
