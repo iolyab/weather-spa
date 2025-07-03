@@ -125,6 +125,7 @@ const CityDetails: React.FC = () => {
                 textAlign: 'center',
                 backdropFilter: 'blur(6px)',
                 flexShrink: 0,
+                cursor: 'default',
               }}>
                 <Typography align="center">{day.day}</Typography>
                 <Typography align="center" variant="h6">{Math.round(day.temp)}°C</Typography>
