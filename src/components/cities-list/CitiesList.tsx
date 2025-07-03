@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppSelector } from '../hooks';
-import CityCard from './CityCard'
-import { selectCities } from '../features/weather/selectors';
+import { useAppSelector } from '../../hooks';
+import CityCard from '../city-card/CityCard'
+import { selectCities } from '../../features/selectors';
 
 const CitiesList: React.FC = () => {
   const cities = useAppSelector(selectCities);

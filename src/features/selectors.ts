@@ -1,4 +1,4 @@
-import { RootState } from '../../app/store'
+import { RootState } from '../app/store'
 
 export const selectErrorModalOpen = (state: RootState) => state.weather.errorModalOpen;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-import Main from './Main';
-import CitiesList from '../components/CitiesList'
+import Main from '../main/Main';
+import CitiesList from '../../components/cities-list/CitiesList'
 import classes from './home.module.scss';
 
 

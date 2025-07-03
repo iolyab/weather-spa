@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import { Card, CardContent, Typography, IconButton, CardActions, CircularProgress, Box } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CityWeather, deleteCity, refreshCity } from '../features/weather/weatherSlice';
-import { useAppDispatch } from '../hooks';
+import { CityWeather, deleteCity, refreshCity } from '../../features/weather/weatherSlice';
+import { useAppDispatch } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { TextField, Button, Box, Modal, Typography, CircularProgress } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { addCity, closeCityNotFoundModal } from '../features/weather/weatherSlice';
-import { selectAddCityLoading, selectErrorModalOpen } from '../features/weather/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { addCity, closeCityNotFoundModal } from '../../features/weather/weatherSlice';
+import { selectAddCityLoading, selectErrorModalOpen } from '../../features/selectors';
 
 
 const Main: React.FC = () => {

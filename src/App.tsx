@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import CityDetails from './pages/CityDetails';
-import Home from './pages/Home';
+import CityDetails from './pages/city-details/CityDetails';
+import Home from './pages/home/Home';
 
 
 const App: React.FC = () => {
