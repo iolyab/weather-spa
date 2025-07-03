@@ -16,13 +16,15 @@ describe('weatherAPI', () => {
         data: {
           name: 'London',
           main: {
-            temp: 20.5
+            temp: 20.5,
           },
-          weather: [{
-            icon: '01d',
-            main: 'Clear'
-          }]
-        }
+          weather: [
+            {
+              icon: '01d',
+              main: 'Clear',
+            },
+          ],
+        },
       };
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
@@ -34,8 +36,8 @@ describe('weatherAPI', () => {
           params: {
             q: 'London',
             units: 'metric',
-            appid: 'test-api-key'
-          }
+            appid: 'test-api-key',
+          },
         }
       );
 
@@ -43,14 +45,16 @@ describe('weatherAPI', () => {
         city: 'London',
         temp: 20.5,
         icon: '01d',
-        description: 'Clear'
+        description: 'Clear',
       });
     });
 
     it('should throw error when API call fails', async () => {
       mockedAxios.get.mockRejectedValueOnce(new Error('API Error'));
 
-      await expect(fetchCurrentWeather('InvalidCity')).rejects.toThrow('API Error');
+      await expect(fetchCurrentWeather('InvalidCity')).rejects.toThrow(
+        'API Error'
+      );
     });
   });
 });

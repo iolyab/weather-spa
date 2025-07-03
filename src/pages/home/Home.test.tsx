@@ -8,15 +8,15 @@ import weatherReducer from '../../features/weather/weatherSlice';
 const createMockStore = () => {
   return configureStore({
     reducer: {
-      weather: weatherReducer
+      weather: weatherReducer,
     },
     preloadedState: {
       weather: {
         cities: [],
         addCityLoading: false,
-        errorModalOpen: false
-      }
-    }
+        errorModalOpen: false,
+      },
+    },
   });
 };
 

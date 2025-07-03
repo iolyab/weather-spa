@@ -8,32 +8,32 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: () => ({ name: 'London' })
+  useParams: () => ({ name: 'London' }),
 }));
 
 const mockWeatherResponse = {
   data: {
-    coord: { lat: 51.5074, lon: -0.1278 }
-  }
+    coord: { lat: 51.5074, lon: -0.1278 },
+  },
 };
 
 const mockOneCallResponse = {
   data: {
     hourly: Array.from({ length: 24 }, (_, i) => ({
       dt: Date.now() / 1000 + i * 3600,
-      temp: 20 + Math.random() * 5
+      temp: 20 + Math.random() * 5,
     })),
     daily: Array.from({ length: 7 }, (_, i) => ({
       dt: Date.now() / 1000 + i * 86400,
-      temp: { day: 20 + Math.random() * 5 }
-    }))
-  }
+      temp: { day: 20 + Math.random() * 5 },
+    })),
+  },
 };
 
 const mockAirPollutionResponse = {
   data: {
-    list: [{ main: { aqi: 2 } }]
-  }
+    list: [{ main: { aqi: 2 } }],
+  },
 };
 
 describe('CityDetails', () => {
@@ -43,7 +43,7 @@ describe('CityDetails', () => {
   });
 
   it('should render loading state initially', () => {
-    mockedAxios.get.mockImplementation(() => new Promise(() => {})); 
+    mockedAxios.get.mockImplementation(() => new Promise(() => {}));
 
     render(
       <BrowserRouter>
@@ -89,7 +89,6 @@ describe('CityDetails', () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
     });
 
- 
     expect(screen.getByText('Weather Details: London')).toBeInTheDocument();
   });
 });

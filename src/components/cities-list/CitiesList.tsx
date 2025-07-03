@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../hooks';
-import CityCard from '../city-card/CityCard'
+import CityCard from '../city-card/CityCard';
 import { selectCities } from '../../features/selectors';
 
 const CitiesList: React.FC = () => {
@@ -16,4 +16,3 @@ const CitiesList: React.FC = () => {
 };
 
 export default CitiesList;
-

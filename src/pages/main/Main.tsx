@@ -1,9 +1,21 @@
 import React, { useState, useCallback } from 'react';
-import { TextField, Button, Box, Modal, Typography, CircularProgress } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Box,
+  Modal,
+  Typography,
+  CircularProgress,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { addCity, closeCityNotFoundModal } from '../../features/weather/weatherSlice';
-import { selectAddCityLoading, selectErrorModalOpen } from '../../features/selectors';
-
+import {
+  addCity,
+  closeCityNotFoundModal,
+} from '../../features/weather/weatherSlice';
+import {
+  selectAddCityLoading,
+  selectErrorModalOpen,
+} from '../../features/selectors';
 
 const Main: React.FC = () => {
   const [city, setCity] = useState('');
@@ -15,7 +27,7 @@ const Main: React.FC = () => {
     e.preventDefault();
 
     const cityName = city.trim();
-    if(cityName.length < 2) return;
+    if (cityName.length < 2) return;
 
     const resultAction = await dispatch(addCity(cityName));
 
@@ -31,8 +43,12 @@ const Main: React.FC = () => {
   }, [dispatch]);
 
   return (
-  <>
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 1, mb: 2 }}>
+    <>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ display: 'flex', gap: 1, mb: 2 }}
+      >
         <TextField
           aria-label="City input"
           label="Find the city..."
@@ -43,8 +59,17 @@ const Main: React.FC = () => {
           fullWidth
           sx={{ '& .MuiInputBase-input': { p: '12px' } }}
         />
-        <Button variant="contained" type="submit" disabled={loading} sx={{ minWidth: 80, position: 'relative' }}>
-        {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Add'}
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={loading}
+          sx={{ minWidth: 80, position: 'relative' }}
+        >
+          {loading ? (
+            <CircularProgress size={24} sx={{ color: 'white' }} />
+          ) : (
+            'Add'
+          )}
         </Button>
       </Box>
 
@@ -79,7 +104,7 @@ const Main: React.FC = () => {
         </Box>
       </Modal>
     </>
-  )
+  );
 };
 
 export default Main;

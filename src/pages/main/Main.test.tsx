@@ -7,19 +7,22 @@ import weatherReducer from '../../features/weather/weatherSlice';
 const createMockStore = (addCityLoading = false, errorModalOpen = false) => {
   return configureStore({
     reducer: {
-      weather: weatherReducer
+      weather: weatherReducer,
     },
     preloadedState: {
       weather: {
         cities: [],
         addCityLoading,
-        errorModalOpen
-      }
-    }
+        errorModalOpen,
+      },
+    },
   });
 };
 
-const renderWithProviders = (addCityLoading = false, errorModalOpen = false) => {
+const renderWithProviders = (
+  addCityLoading = false,
+  errorModalOpen = false
+) => {
   const store = createMockStore(addCityLoading, errorModalOpen);
   return render(
     <Provider store={store}>
@@ -60,14 +63,17 @@ describe('Main', () => {
 
     fireEvent.change(input, { target: { value: 'L' } });
     fireEvent.click(addButton);
-
   });
 
   it('should show error modal when errorModalOpen is true', () => {
     renderWithProviders(false, true);
 
     expect(screen.getByText('City Not Found')).toBeInTheDocument();
-    expect(screen.getByText('The city you entered could not be found. Please try again.')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'The city you entered could not be found. Please try again.'
+      )
+    ).toBeInTheDocument();
   });
 
   it('should close modal when close button is clicked', () => {
@@ -75,7 +81,5 @@ describe('Main', () => {
 
     const closeButton = screen.getByRole('button', { name: 'Close' });
     fireEvent.click(closeButton);
-
-
   });
 });

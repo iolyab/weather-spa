@@ -31,18 +31,18 @@ describe('App Routing Integration', () => {
   it('renders CityDetails on "/city/London"', async () => {
     mockedAxios.get
       .mockResolvedValueOnce({
-        data: { coord: { lat: 51.5, lon: -0.1 } }
+        data: { coord: { lat: 51.5, lon: -0.1 } },
       })
       .mockResolvedValueOnce({
         data: {
           hourly: [],
-          daily: []
-        }
+          daily: [],
+        },
       })
       .mockResolvedValueOnce({
         data: {
-          list: [{ main: { aqi: 2 } }]
-        }
+          list: [{ main: { aqi: 2 } }],
+        },
       });
 
     render(
@@ -53,7 +53,8 @@ describe('App Routing Integration', () => {
       </Provider>
     );
 
-    expect(await screen.findByText(/weather details: london/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/weather details: london/i)
+    ).toBeInTheDocument();
   });
 });
-

@@ -10,7 +10,9 @@ export interface WeatherData {
   description: string;
 }
 
-export const fetchCurrentWeather = async (city: string): Promise<WeatherData> => {
+export const fetchCurrentWeather = async (
+  city: string
+): Promise<WeatherData> => {
   const response = await axios.get(`${BASE_URL}/weather`, {
     params: {
       q: city,
